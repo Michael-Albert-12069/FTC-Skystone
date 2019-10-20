@@ -13,17 +13,19 @@ public class ArmTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException{
         //this where Op code is owo
         armMotor= hardwareMap.dcMotor.get("arm");
+        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
 
 
         waitForStart();
         //below is what happens when you press start
         while (opModeIsActive()){
-            armMotor.setPower(+gamepad1.right_trigger);
-            armMotor.setPower(-gamepad1.right_trigger);
+            armMotor.setPower(+gamepad1.left_stick_y/6);
+            telemetry.addLine(String.valueOf(armMotor.getCurrentPosition()));
+            telemetry.update();
         }
 
-        telemetry.update();
         idle();
     }
 }
