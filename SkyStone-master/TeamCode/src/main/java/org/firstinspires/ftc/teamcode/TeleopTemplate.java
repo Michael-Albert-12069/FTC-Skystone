@@ -22,8 +22,8 @@ public class TeleopTemplate extends LinearOpMode {
         waitForStart();
         //below is what happens when you press start
         while (opModeIsActive()){
-            leftMotor.setPower(gamepad1.left_stick_y/2);
-            rightMotor.setPower(gamepad1.right_stick_y/2);
+            leftMotor.setPower(gamepad1.left_stick_y/1);
+            rightMotor.setPower(gamepad1.right_stick_y/1);
         }
 
         telemetry.update();
