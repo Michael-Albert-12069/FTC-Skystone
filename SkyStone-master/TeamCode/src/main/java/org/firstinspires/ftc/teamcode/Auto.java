@@ -25,34 +25,87 @@ public class Auto extends LinearOpMode {
         thumb = hardwareMap.servo.get("thumb");
         finger = hardwareMap.servo.get("finger");
         //declaring inde... names
+//insert Ryer slam head on table
 
         waitForStart();
-        driveForward(1, 1750);
-        turnLeft(1, 2000);
-        driveForward(1, 3000);
+        driveForward(40);
+        turnLeft(90);
+        driveForward(80);
+
+
+
 
 
 
     }
-    public void driveForward(double power, long time) throws InterruptedException {
-        leftMotor.setPower(power);
-        rightMotor.setPower(power);
-        Thread.sleep(time);
+    public void driveForward(int cm) throws InterruptedException {
+        rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        int rightPos = rightMotor.getCurrentPosition();
+        int leftPos = leftMotor.getCurrentPosition();
 
+        //28.26 cm per revolution
+        //288 ticks per revolution
+        int conversionFactor = 10;
+        rightMotor.setTargetPosition(rightPos + (10*cm));
+        leftMotor.setTargetPosition(leftPos+ (10*cm));
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setPower(1);
+        leftMotor.setPower(1);
+        while (leftMotor.isBusy() && rightMotor.isBusy()){
+            //nothing
+        }
+        stopDrive();
     }
-    public void turnLeft(double power, long time) throws InterruptedException {
-        leftMotor.setPower(-power);
-        rightMotor.setPower(power);
-        Thread.sleep(time);
+    public void turnLeft(int degrees) throws InterruptedException {
+        int cm =  degToCM(degrees);
+        rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        int rightPos = rightMotor.getCurrentPosition();
+        int leftPos = leftMotor.getCurrentPosition();
+
+        //28.26 cm per revolution
+        //288 ticks per revolution
+        int conversionFactor = 10;
+        rightMotor.setTargetPosition(rightPos - (10*cm));
+        leftMotor.setTargetPosition(leftPos+ (10*cm));
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightMotor.setPower(-1);
+        leftMotor.setPower(1);
+        while (leftMotor.isBusy() && rightMotor.isBusy()){
+            //nothing
+        }
+        stopDrive();
     }
-    public void turnRight(double power, long time) throws InterruptedException {
-        leftMotor.setPower(power);
-        rightMotor.setPower(-power);
-        Thread.sleep(time);
+    public void turnRight(int degrees) throws InterruptedException {
+        int cm =  degToCM(degrees);
+        rightMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        leftMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        int rightPos = rightMotor.getCurrentPosition();
+        int leftPos = leftMotor.getCurrentPosition();
+        rightMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        //28.26 cm per revolution
+        //288 ticks per revolution
+        int conversionFactor = 10;
+        rightMotor.setTargetPosition(rightPos + (10*cm));
+        leftMotor.setTargetPosition(leftPos - (10*cm));
+        rightMotor.setPower(1);
+        leftMotor.setPower(-1);
+        while (leftMotor.isBusy() && rightMotor.isBusy()){
+            //nothing
+        }
+        stopDrive();
     }
-    public void stopDrive(double power, long time) throws InterruptedException {
-        leftMotor.setPower(power);
-        rightMotor.setPower(power);
-        Thread.sleep(time);
+    public void stopDrive() throws InterruptedException {
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+    }
+    public static int degToCM(int deg){
+        int cm = (int) Math.sqrt(120*deg);
+        cm-=(0.1*deg);
+        return cm;
     }
 }
