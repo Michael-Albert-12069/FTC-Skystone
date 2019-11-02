@@ -22,14 +22,14 @@ public class Auto extends LinearOpMode {
         leftMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
-        thumb = hardwareMap.servo.get("thumb");
-        finger = hardwareMap.servo.get("finger");
+    //    thumb = hardwareMap.servo.get("thumb");
+    //    finger = hardwareMap.servo.get("finger");
 //insert Ryer slam head on table
 
         waitForStart();
         driveForward(40);
         turnLeft(90);
-        driveForward(80);
+        driveForward(106);
 
 
 
@@ -104,7 +104,7 @@ public class Auto extends LinearOpMode {
     }
     public static int degToCM(int deg){
         int cm = (int) Math.sqrt(120*deg);
-        cm-=(0.1*deg);
+        cm-=(0.2*deg);
         return cm;
     }
 }

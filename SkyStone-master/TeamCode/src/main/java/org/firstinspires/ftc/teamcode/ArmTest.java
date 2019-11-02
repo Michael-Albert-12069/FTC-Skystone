@@ -32,8 +32,8 @@ public class ArmTest extends LinearOpMode {
 
 //and then you Knowles what happened
 
-double initArmPosL = lCS.getPosition();
-double initArmPosR = rCS.getPosition();
+        double initArmPosL = lCS.getPosition();
+        double initArmPosR = rCS.getPosition();
 
 
         waitForStart();
@@ -60,7 +60,7 @@ double initArmPosR = rCS.getPosition();
                 rAS.setPosition(rASclosePosition);
             }
             //sets the claw to open on A and close on B
-                armMotor.setPower(gamepad2.left_stick_y*1);
+            armMotor.setPower(gamepad2.left_stick_y*1);
 
 
 
