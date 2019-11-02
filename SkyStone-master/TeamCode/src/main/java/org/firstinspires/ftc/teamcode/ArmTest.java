@@ -30,9 +30,10 @@ public class ArmTest extends LinearOpMode {
         rCS = hardwareMap.servo.get("rightCS");
         lCS = hardwareMap.servo.get("leftCS");
 
+//and then you Knowles what happened
 
-
-
+double initArmPosL = lCS.getPosition();
+double initArmPosR = rCS.getPosition();
 
 
         waitForStart();
@@ -41,24 +42,35 @@ public class ArmTest extends LinearOpMode {
 
         //below is what happens when you press start
         while (opModeIsActive()){
-            String direction = "";
-            int curLocation = 1;
-            int armPosition = armMotor.getCurrentPosition();
+            double rPotentialPos = initArmPosR+(gamepad2.right_trigger/10)-(gamepad2.left_trigger/10);
+            double lPotentialPos = initArmPosL-(gamepad2.right_trigger/10)+(gamepad2.left_trigger/10);
+            lCS.setPosition(lPotentialPos);
+            rCS.setPosition(rPotentialPos);
+            //+ and - could be flipped
+            int lASopenPosition = 0;
+            int lASclosePosition = 0;
+            int rASclosePosition = 0;
+            int rASopenPosition = 0;
+            if(gamepad2.a){
+                lAS.setPosition(lASopenPosition);
+                rAS.setPosition(rASopenPosition);
+            }
+            if(gamepad2.b) {
+                lAS.setPosition(lASclosePosition);
+                rAS.setPosition(rASclosePosition);
+            }
+            //sets the claw to open on A and close on B
+                armMotor.setPower(gamepad2.left_stick_y*1);
 
-                //
-                armMotor.setPower(gamepad1.left_stick_y*5);
+
+
+
+//Alto Clef makes more sense than Treble
 
 
 
 
-
-
-
-
-
-                telemetry.addLine("Direction: " + direction);
             telemetry.addLine("Arm Position: " + armMotor.getCurrentPosition());
-            telemetry.addLine("Current Position: " + curLocation);
 
 
 

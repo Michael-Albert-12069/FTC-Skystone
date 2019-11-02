@@ -24,7 +24,6 @@ public class Auto extends LinearOpMode {
         leftMotor.setDirection(DcMotor.Direction.REVERSE);
         thumb = hardwareMap.servo.get("thumb");
         finger = hardwareMap.servo.get("finger");
-        //declaring inde... names
 //insert Ryer slam head on table
 
         waitForStart();
