@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-
+// /n
 
 @TeleOp(name = "Competition TeleOp",group = "TeleOp")
 public class TeleOpComp1 extends LinearOpMode{
@@ -26,6 +26,7 @@ public class TeleOpComp1 extends LinearOpMode{
     double lASopenPosition = 0.5;
     double rASclosePosition = 0.6;
     double rASopenPosition = 0.3;
+    int armPosition;
 
 
 
@@ -50,13 +51,25 @@ public class TeleOpComp1 extends LinearOpMode{
         rightMotor = hardwareMap.dcMotor.get("right");
         rightMotor.setDirection(DcMotor.Direction.REVERSE);
 
-
+int position = 0;
 
         waitForStart();
 
         //below is what happens when you press start
         while (opModeIsActive()) {
+            if (gamepad2.dpad_up){
+                if (position <= 4){
+                    position += 1;
+                }
 
+
+            }
+
+            if (gamepad2.dpad_down){
+                if (position >= 0){
+                    position -= 1;
+                }
+            }
 
             leftMotor.setPower(gamepad1.left_stick_y);
             rightMotor.setPower(gamepad1.right_stick_y);
@@ -75,7 +88,7 @@ public class TeleOpComp1 extends LinearOpMode{
             }
             //sets the claw to open on A and close on B
 
-            armMotor.setPower(gamepad2.left_stick_y * 1);
+         //   armMotor.setPower(gamepad2.right_stick_y * 1);
 
             rCS.setPosition((0.5 + (gamepad2.right_trigger / 2) - (gamepad2.left_trigger / 2)));
             lCS.setPosition(0.5 - (gamepad2.right_trigger / 2) + (gamepad2.left_trigger / 2));
@@ -83,7 +96,7 @@ public class TeleOpComp1 extends LinearOpMode{
 
 
 
-
+            armPosition = armMotor.getCurrentPosition();
             telemetry.addLine("Arm Position: " + armMotor.getCurrentPosition());
             telemetry.addLine("lAS Position: " + lAS.getPosition());
             telemetry.addLine("rAS Position: " + rAS.getPosition());
@@ -95,5 +108,28 @@ public class TeleOpComp1 extends LinearOpMode{
 
         }
     }
+    public void evaluatePosition(int position, double power) throws InterruptedException{
+        if (position == 1){
+            moveArmTo(181, 0);
+        }else if (position == 2){
+            moveArmTo(181, 0);
+        }else if (position == 3){
+            moveArmTo(181, 0);
+        }
+    }
+    public void moveArmTo(int position, double power) throws InterruptedException {
+        armMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
+        int leftPos = armMotor.getCurrentPosition();
 
+        //28.26 cm per revolution
+        //288 ticks per revolution
+        int conversionFactor = 10;
+        armMotor.setTargetPosition(position);
+        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armMotor.setPower(power);
+        while (armMotor.isBusy()){
+            //auto code
+        }
+        armMotor.setPower(0);
+    }
 }
