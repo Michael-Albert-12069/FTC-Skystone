@@ -28,7 +28,7 @@ public class Auto extends LinearOpMode {
 
         waitForStart();
         driveForward(40);
-        turnLeft(90);
+        turnLeft(115);
         driveForward(106);
 
 
