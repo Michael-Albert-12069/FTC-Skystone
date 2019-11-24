@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 // /n
 //
 
-@TeleOp(name = "Competition TeleOp",group = "TeleOp")
+@TeleOp(name = "Competition TeleOp",group = "Deprecated")
 public class TeleOpComp1 extends LinearOpMode{
     private DcMotor armMotor;
     private DcMotor leftMotor;

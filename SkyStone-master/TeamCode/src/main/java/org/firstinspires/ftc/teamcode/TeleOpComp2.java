@@ -4,18 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 // /n
 //
 
 @TeleOp(name = "Competition TeleOp",group = "TeleOp")
-public class TeleOpComp1 extends LinearOpMode{
+public class TeleOpComp2 extends LinearOpMode{
     private DcMotor armMotor;
     private DcMotor leftMotor;
     private DcMotor rightMotor;
