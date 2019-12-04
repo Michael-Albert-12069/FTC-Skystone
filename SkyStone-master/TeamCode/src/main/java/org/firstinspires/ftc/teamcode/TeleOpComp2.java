@@ -1,18 +1,30 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-// /n
-//
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@TeleOp(name = "Competition TeleOp",group = "TeleOp")
+// \n
+
+
+@TeleOp(name = "Teleop Comp 2",group = "TeleOp")
 public class TeleOpComp2 extends LinearOpMode{
-    private DcMotor armMotor;
-    private DcMotor leftMotor;
-    private DcMotor rightMotor;
+    DcMotor                 leftMotor, rightMotor;
+    //TouchSensor             touch;
+    BNO055IMU imu;
+    Orientation lastAngles = new Orientation();
+    double                  globalAngle, power = .30, correction, rotation;
+    boolean                 aButton, bButton, touched;
+    PIDController           pidRotate, pidDrive;
+    private DcMotor rLinMotor; //4
+    private DcMotor lLinMotor; //1
+
+
     private Servo rAS;
     private Servo lAS;
     private Servo rCS;
@@ -27,9 +39,14 @@ public class TeleOpComp2 extends LinearOpMode{
 
     @Override
     public void runOpMode() throws InterruptedException{
-        armMotor = hardwareMap.get(DcMotor.class, "arm");
-        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rLinMotor = hardwareMap.get(DcMotor.class, "rArm");
+        rLinMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rLinMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lLinMotor = hardwareMap.get(DcMotor.class, "lArm");
+        lLinMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lLinMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lLinMotor.setDirection(DcMotor.Direction.REVERSE);
 
         rAS = hardwareMap.servo.get("rightAS");
         rAS.setDirection(Servo.Direction.REVERSE);
@@ -57,7 +74,9 @@ public class TeleOpComp2 extends LinearOpMode{
             leftMotor.setPower(gamepad1.left_stick_y);
             rightMotor.setPower(gamepad1.right_stick_y);
 
-            armMotor.setPower(gamepad2.right_stick_y/1.5);
+            lLinMotor.setPower(gamepad2.right_stick_y/3);
+            rLinMotor.setPower(gamepad2.right_stick_y/3);
+
 
 
 
@@ -79,10 +98,17 @@ public class TeleOpComp2 extends LinearOpMode{
 
 
 
-            telemetry.addLine("Arm Position: " + armMotor.getCurrentPosition());
             telemetry.addLine("lAS Position: " + lAS.getPosition());
             telemetry.addLine("rAS Position: " + rAS.getPosition());
             telemetry.addLine("Switch Location: " + position);
+            telemetry.addLine("rCS Position: " + rCS.getPosition());
+            telemetry.addLine("lCS Position: " + lCS.getPosition());
+
+            telemetry.addLine("left slide Position: " + lLinMotor.getPowerFloat());
+            telemetry.addLine("right slide Position: " + rLinMotor.getPowerFloat());
+
+
+
 
 
 
@@ -92,28 +118,6 @@ public class TeleOpComp2 extends LinearOpMode{
 
         }
     }
-    public void evaluatePosition(int position, double power, int curArmPos) throws InterruptedException{
-        if (position == 1){
-            moveArmTo(181, power);
-        }else if (position == 2){
-            moveArmTo(279, power);
-        }else if (position == 3){
-            moveArmTo(397, power);
-        }
-    }
-    public void moveArmTo(int position, double power) throws InterruptedException {
-        armMotor.setMode(DcMotor.RunMode.RESET_ENCODERS);
-        int leftPos = armMotor.getCurrentPosition();
 
-        //28.26 cm per revolution
-        //288 ticks per revolution
-        int conversionFactor = 10;
-        armMotor.setTargetPosition(position);
-        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armMotor.setPower(power);
-        while (armMotor.isBusy()){
-            //auto code
-        }
-        armMotor.setPower(0);
-    }
+
 }
