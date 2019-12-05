@@ -104,8 +104,7 @@ public class TeleOpComp2 extends LinearOpMode{
             telemetry.addLine("rCS Position: " + rCS.getPosition());
             telemetry.addLine("lCS Position: " + lCS.getPosition());
 
-            telemetry.addLine("left slide Position: " + lLinMotor.getPowerFloat());
-            telemetry.addLine("right slide Position: " + rLinMotor.getPowerFloat());
+            telemetry.addLine("lin slide power: " + gamepad2.right_stick_y/3);
 
 
 

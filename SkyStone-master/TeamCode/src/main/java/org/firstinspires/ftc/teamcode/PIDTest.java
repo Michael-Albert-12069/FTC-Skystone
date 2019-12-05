@@ -128,7 +128,7 @@ public class PIDTest extends LinearOpMode
         leftMotor.setPower(power*2);
         rightMotor.setPower(power*2);
 
-        sleep(3000);
+        sleep(3100);
 
         // stop.
         leftMotor.setPower(0);
@@ -169,10 +169,10 @@ public class PIDTest extends LinearOpMode
         rotate(25, power);
 
         //pull up to bricks
-        leftMotor.setPower(power*4);
-        rightMotor.setPower(power*4);
+        leftMotor.setPower(power);
+        rightMotor.setPower(power);
 
-        sleep(500);
+        sleep(1500);
 
         // stop.
         leftMotor.setPower(0);
@@ -180,28 +180,54 @@ public class PIDTest extends LinearOpMode
 
         closeServo();
         pull(1000);
-        closeServo();
-        closeServo();
-        pull(1000);
+
 
         //pull through bricks
-        leftMotor.setPower(power*4);
-        rightMotor.setPower(power*4);
+        leftMotor.setPower(power*2);
+        rightMotor.setPower(power*2);
 
-        sleep(1000);
+        sleep(2000);
 
         // stop.
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
         //straighten out
-        rotate(65, power);
+        rotate(60, power);
 
-        //pull through bricks
+        //pull back
         leftMotor.setPower(-power*4);
         rightMotor.setPower(-power*4);
 
         sleep(1000);
+
+        // stop.
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rotate(35, power);
+
+        //pull back
+        leftMotor.setPower(-power*4);
+        rightMotor.setPower(-power*4);
+
+        sleep(250);
+
+        // stop.
+        leftMotor.setPower(0);
+        rightMotor.setPower(0);
+
+        rotate(35, power);
+
+
+
+        sleep(100);
+
+        //go back through bridge
+        leftMotor.setPower(power*4);
+        rightMotor.setPower(power*4);
+
+        sleep(2000);
 
         // stop.
         leftMotor.setPower(0);
