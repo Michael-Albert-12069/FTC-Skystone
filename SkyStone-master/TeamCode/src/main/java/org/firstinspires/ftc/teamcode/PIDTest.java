@@ -38,11 +38,21 @@ public class PIDTest extends LinearOpMode
     Orientation             lastAngles = new Orientation();
     double                  globalAngle, power = .30, correction;
     boolean                 aButton, bButton, touched;
+    private DcMotor rLinMotor; //4
+    private DcMotor lLinMotor; //1
 
     // called when init button is  pressed.
     @Override
     public void runOpMode() throws InterruptedException
     {
+        rLinMotor = hardwareMap.get(DcMotor.class, "rArm");
+        rLinMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rLinMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        lLinMotor = hardwareMap.get(DcMotor.class, "lArm");
+        lLinMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lLinMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lLinMotor.setDirection(DcMotor.Direction.REVERSE);
         leftMotor = hardwareMap.dcMotor.get("left");
         rightMotor = hardwareMap.dcMotor.get("right");
 
@@ -119,29 +129,31 @@ public class PIDTest extends LinearOpMode
         // one place with time passing between those places. See the lesson on
         // Timing Considerations to know why.
 
-        aButton = gamepad1.a;
-        bButton = gamepad1.b;
-        //touched = touch.isPressed();
+
 
 
         // move to bridge.
-        leftMotor.setPower(power*2);
-        rightMotor.setPower(power*2);
+        leftMotor.setPower(power*4);
+        rightMotor.setPower(power*4);
 
-        sleep(3100);
+        sleep(1750);
 
         // stop.
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
         // get on bridge
-        rotate(45, power);
+        rotate(45, power*2);
+
+
+
+
 
         //ram onto it
         leftMotor.setPower(power*5);
         rightMotor.setPower(power*5);
 
-        sleep(1000);
+        sleep(975);
 
         // stop.
         leftMotor.setPower(0);
@@ -154,7 +166,7 @@ public class PIDTest extends LinearOpMode
         leftMotor.setPower(power*4);
         rightMotor.setPower(power*4);
 
-        sleep(500);
+        sleep(600);
 
         // stop.
         leftMotor.setPower(0);
@@ -166,13 +178,13 @@ public class PIDTest extends LinearOpMode
         openServo();
 
         //face bricks
-        rotate(25, power);
+        rotate(30 , power);
 
         //pull up to bricks
         leftMotor.setPower(power);
         rightMotor.setPower(power);
 
-        sleep(1500);
+        sleep(1100);
 
         // stop.
         leftMotor.setPower(0);
@@ -182,34 +194,57 @@ public class PIDTest extends LinearOpMode
         pull(1000);
 
 
-        //pull through bricks
-        leftMotor.setPower(power*2);
-        rightMotor.setPower(power*2);
+        //lift arm
+        lLinMotor.setPower(0.3);
+        rLinMotor.setPower(0.3);
 
-        sleep(2000);
+        sleep(500);
+
+        lLinMotor.setPower(0);
+        rLinMotor.setPower(0);
+
+
+
+
+
+
+        //pull out of bricks
+        leftMotor.setPower(-power*5);
+        rightMotor.setPower(-power*5);
+
+        sleep(1500);
 
         // stop.
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
-        //straighten out
-        rotate(60, power);
+        //lift arm
+        lLinMotor.setPower(0.3);
+        rLinMotor.setPower(0.3);
 
-        //pull back
-        leftMotor.setPower(-power*4);
-        rightMotor.setPower(-power*4);
+        sleep(500);
 
-        sleep(1000);
+        lLinMotor.setPower(0);
+        rLinMotor.setPower(0);
+
+        //turn to the foundation
+        rotate(100, power * 1.5);
+
+        //pull to reface foundation
+        leftMotor.setPower(-power*5);
+        rightMotor.setPower(-power*5);
+
+        sleep(150);
 
         // stop.
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
-        rotate(35, power);
+        rotate(25, power * 1.5);
 
-        //pull back
-        leftMotor.setPower(-power*4);
-        rightMotor.setPower(-power*4);
+        //pull into foundation
+        leftMotor.setPower(power*5);
+        rightMotor.setPower(power*5);
 
         sleep(250);
 
@@ -217,21 +252,13 @@ public class PIDTest extends LinearOpMode
         leftMotor.setPower(0);
         rightMotor.setPower(0);
 
-        rotate(35, power);
+
+        push(1000);
 
 
 
-        sleep(100);
 
-        //go back through bridge
-        leftMotor.setPower(power*4);
-        rightMotor.setPower(power*4);
 
-        sleep(2000);
-
-        // stop.
-        leftMotor.setPower(0);
-        rightMotor.setPower(0);
 
 
 
