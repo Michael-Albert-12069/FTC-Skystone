@@ -3,20 +3,15 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 // /n
 //
 
-@TeleOp(name = "Mecanum 4WD",group = "Deprecated")
-public class Mecanum4WD extends LinearOpMode{
+@TeleOp(name = "Teleop-TEST",group = "Test")
+public class teleopTEST extends LinearOpMode{
     private DcMotor[] arr = new DcMotor[4];
 
     //Drive Train
@@ -43,10 +38,14 @@ public class Mecanum4WD extends LinearOpMode{
         FR = hardwareMap.dcMotor.get("fr");
         FR.setDirection(DcMotorSimple.Direction.REVERSE);
         FL = hardwareMap.dcMotor.get("fl");
+
+
         arr[0] = FL;
+
         arr[1] = FR;
         arr[2] = RL;
         arr[3] = RR;
+
 
 
         ySlide = hardwareMap.dcMotor.get("y");
@@ -55,7 +54,7 @@ public class Mecanum4WD extends LinearOpMode{
         xSlidel = hardwareMap.dcMotor.get("xl");
         xSlidel.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
+        finger = hardwareMap.get(Servo.class, "finger");
 
 
                 waitForStart();
@@ -82,8 +81,8 @@ public class Mecanum4WD extends LinearOpMode{
                                        +1, -1});
             }
             //triggers
-            double rt = gamepad1.right_trigger/2;
-            double lt = gamepad1.left_trigger/2;
+            double rt = gamepad1.right_trigger/1.5;
+            double lt = gamepad1.left_trigger/1.5;
             setPowers(new double[]{lt, rt,
                                    lt, rt});
             //sticks
@@ -103,7 +102,16 @@ public class Mecanum4WD extends LinearOpMode{
                 ySlide.setPower(-0.2601);
             }
 
+            if (gamepad2.a){
+                finger.setPosition(0);
+            }
+            if (gamepad2.b){
+                finger.setPosition(.33);
+            }
+
             telemetry.addLine("Slide's Power: " + gamepad2.left_stick_y/1.15);
+            telemetry.addLine("LeftfromBeginning: |" + FL.getCurrentPosition());
+            telemetry.addLine("RightfromBeginning: |" + FR.getCurrentPosition());
             telemetry.update();
 
             //reset the motor's power
@@ -128,6 +136,8 @@ public class Mecanum4WD extends LinearOpMode{
         }
 
     }
+
+
 
 
 }

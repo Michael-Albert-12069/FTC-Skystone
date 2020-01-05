@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -14,7 +15,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 // /n
 //
 
-@TeleOp(name = "Mecanum 4WD",group = "Deprecated")
+@TeleOp(name = "Mecanum 4WD",group = "Working")
 public class Mecanum4WD extends LinearOpMode{
     private DcMotor[] arr = new DcMotor[4];
 
@@ -54,6 +55,7 @@ public class Mecanum4WD extends LinearOpMode{
         xSlidel = hardwareMap.dcMotor.get("xl");
         xSlidel.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        finger = hardwareMap.get(Servo.class, "finger");
 
 
 
@@ -97,10 +99,22 @@ public class Mecanum4WD extends LinearOpMode{
             xSlidel.setPower(gamepad2.right_stick_y/5);
 
              ySlide.setPower(gamepad2.left_stick_y/1.15);
+            //-0.2601
+            if (dpadPressedOn(gamepad2)){
+                ySlide.setPower(-0.2601);
+            }
+
+
+            if (gamepad2.a){
+                finger.setPosition(0);
+            }
+            if (gamepad2.b){
+                finger.setPosition(.33);
+            }
 
 
 
-
+            telemetry.addLine("Slide's Power: " + gamepad2.left_stick_y/1.15);
             telemetry.update();
 
             //reset the motor's power
@@ -116,6 +130,14 @@ public class Mecanum4WD extends LinearOpMode{
         for (int x = 0; x < args.length; x ++){
             arr[x].setPower(args[x]);
         }
+    }
+    public boolean dpadPressedOn(Gamepad gamepad){
+        if (gamepad.dpad_down || gamepad.dpad_up || gamepad.dpad_left || gamepad.dpad_right){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 

@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name = "R-SFP", group = "Autonomous")
-public class Auto extends LinearOpMode {
+@Autonomous(name = "R-F", group = "Autonomous")
+public class AutoFoundation extends LinearOpMode {
     private DcMotor[] arr = new DcMotor[4];
     private DcMotor RR; //Rear Right
     private DcMotor RL; //Rear Left
@@ -69,25 +69,27 @@ public class Auto extends LinearOpMode {
 
 
         waitForStart();
-        driveForward((int) INtoCM(20));
-        turnLeft((int)90/2.445);
-        driveForward((int) INtoCM(62));
-        turnRight((int) 90/2.445);
-        driveForward((int) INtoCM(15));
-        finger.setPosition(.33);
-        sleep(100);
-        finger.setPosition(.33);
-        driveBackward(35);
-        turnRight((int) 90/2.445);
-        driveForward((int) INtoCM(67));
-        liftSlide(10);
-        holdSlide();
-        turnLeft((int)90/2.445);
-        finger.setPosition(0);
-        releaseSlide();
-        driveForward((int) INtoCM(15));
+        driveForward((int) INtoCM(17));
         grabFoundation();
-        driveBackward((int)INtoCM(100));
+        sleep(300);
+        driveBackward((int) INtoCM(16));
+        releaseFoundation();
+        driveBackward((int) INtoCM(2));
+        turnLeft(90/2.445);
+        finger.setPosition(.33);
+        driveForward((int) INtoCM(24));
+        turnRight(90/2.445);
+        finger.setPosition(0);
+        driveForward((int) INtoCM(17));
+        turnRight(115/2.445);
+        driveForward((int) INtoCM(15));
+
+
+
+
+
+
+
 
 
 
@@ -123,8 +125,7 @@ public class Auto extends LinearOpMode {
         //28.26 cm per revolution
         //288 ticks per revolution
         int conversionFactor = 10;
-        arr[1].setTargetPosition(cm * 13);
-        arr[0].setTargetPosition(cm * 13);
+setPositions(new int[]{cm * 13, cm* 13, cm * 13, cm * 13});
         arr[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arr[0].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPowers(new double[]{1, 1,
@@ -144,8 +145,7 @@ public class Auto extends LinearOpMode {
         //28.26 cm per revolution
         //288 ticks per revolution
         int conversionFactor = 10;
-        arr[1].setTargetPosition(cm * -13);
-        arr[0].setTargetPosition(cm * -13);
+        setPositions(new int[]{cm * -13, cm* -13, cm * -13, cm * -13});
         arr[1].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         arr[0].setMode(DcMotor.RunMode.RUN_TO_POSITION);
         setPowers(new double[]{-1, -1,
@@ -213,8 +213,8 @@ public class Auto extends LinearOpMode {
         }
     }
     public void grabFoundation(){
-        foundL.setPosition(0.45);
-        foundR.setPosition(0.7);
+        foundL.setPosition(0.4);
+        foundR.setPosition(0.8);
     }
     public void releaseFoundation(){
         foundL.setPosition(0.9);
